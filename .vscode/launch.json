@@ -1,0 +1,28 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - PruebaVuelos",
+            "request": "launch",
+            "mainClass": "PruebaVuelos"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Pedido",
+            "request": "launch",
+            "mainClass": "Pedido"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - ReadFileTest",
+            "request": "launch",
+            "mainClass": "ReadFileTest"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - pedido",
+            "request": "launch",
+            "mainClass": "pedido"
+        }
+    ]
+}
