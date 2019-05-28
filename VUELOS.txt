@@ -1,9 +1,2 @@
-A-234	Leon	Houston	1025	1300	American Airlines	2100.0	
-A-235	Leon	Londres	1450	1900	American Airlines	3500.0	
-A-236	CDMX	EE.UU	2300	1230	American Airlines	3542.0	
-A-237	Guadalajara	CDMX	1200	2000	American Airlines	1500.01	
-A-238	Leon	Monterrey	1800	2400	American Airlines	1354.5	
-A-239	CDMX	Nueva York	800	2150	American Airlines	1345.0	
-A-243	Leon	Silao	1834	1200	American Airlines	4285.0	
-A-240	Leon	Guanajuato	1900	2000	2050	250.0	
-A-241	CDMX	Cancun	1900	1200	American Airlines	1900.0	
+A-001	Leon	Chicago	1200	2400	American Airlines	3500.0	
+A-003	Leon	CDMX	1900	2100	Aeromexico	3600.0	
