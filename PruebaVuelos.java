@@ -14,7 +14,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-// 
+// El proyecto tambien se encuenta en el siguiente repositorio de GitHub:
+// https://github.com/NoisyApple/Vuelos
 
 // NOTA: El proyecto no cuenta con archivos de tipo .class debido al editor que 
 // se utilizo para su desarrollo.
