@@ -1,2 +1,5 @@
-A-001	Leon	Chicago	1200	2400	American Airlines	3500.0	
-A-003	Leon	CDMX	1900	2100	Aeromexico	3600.0	
+A-001	Leon	CDMX	1000	1200	American Airlines	1900.0	
+A-002	Leon	Leon	1400	1400	American Airlines	1800.0	
+A-003	Leon	Londres	1600	300	Aeromexico	12000.0	
+A-004	Leon	Nueva York	1200	1800	InterJet	2000.0	
+A-234	Leon	Houston	1025	1300	American Airlines	2100.0	

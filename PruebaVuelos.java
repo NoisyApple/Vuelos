@@ -1,8 +1,31 @@
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-
-import javax.swing.JFrame;
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
+// 
+
+// NOTA: El proyecto no cuenta con archivos de tipo .class debido al editor que 
+// se utilizo para su desarrollo.
+
+// ERRORES CONOCIDOS: 
+// ***Cuando se crea un registro nuevo, este se almacena sin un caracter necesario 
+// para que el metodo eliminarReg() lo ubique y lo elimine, por lo que es imposible 
+// eliminar todos los registros, ya que siempre quedara el ultimo.
+// ***El programa ocasionalmente falla, ocasionando un error que ya esta manejado
+// en el codigo, asi que simplemente emergera una ventana de dialogo, si esto sucede 
+// se recomienda intentar realizar la misma accion nuevamente.
 
 // Clase principal de prueba PruebaVuelos: crea una instancia de tipo
 // RegistroDeVuelo en la que itera por medio de un menu entre sus funciones en
@@ -19,7 +42,21 @@ class PruebaVuelos {
             while (true) {
 
                 opt = Integer.parseInt(JOptionPane.showInputDialog(null,
-                        "<html><font size='4'><p align='center' style='color: #FF2B8A'>AEROPUERTO INTERNACIONAL DEL BAJIO</p></font><p align='center' style='color: #333333; font-size: 14'>Ingrese el numero de la opcion <br>que desea realizar:</p><br><table align='center' style='color: #333333; font-size:10px'><tr><th>[<span style='color: #345995'>1</span>]</th><thalign='left'>Añadir un registro de vuelo.</th></tr><tr><th>[<span style='color: #345995'>2</span>]</th><th align='left'>Buscar por numero de registro.</th></tr><tr><th>[<span style='color: #345995'>3</span>]</th><th align='left'>Buscar por numero de vuelo.</th></tr><tr><th>[<span style='color: #345995'>4</span>]</th><th align='left'>Eliminar un registro de vuelo.</th></tr><tr><th>[<span style='color: #345995'>5</span>]</th><th align='left'>Modificar un registro de vuelo.</th></tr><tr><th>[<span style='color: #345995'>6</span>]</th><th align='left'>Mostrar listado de vuelos.</th></tr><tr><th>[<span style='color: #345995'>7</span>]</th><th align='left'>Salir.</th></tr></table><br><html>",
+                        "<html><font size='4'><p align='center' style='color: #FF2B8A'>AEROPUERTO "
+                                + "INTERNACIONAL DEL BAJIO</p></font><p align='center' style='color: #333333; "
+                                + "font-size: 14'>Ingrese el numero de la opcion <br>que desea "
+                                + "realizar:</p><br><table align='center' style='color: #333333; "
+                                + "font-size:10px'><tr><th>[<span style='color: "
+                                + "#345995'>1</span>]</th><thalign='left'>Añadir un registro de "
+                                + "vuelo.</th></tr><tr><th>[<span style='color: #345995'>2</span>]</th><th "
+                                + "align='left'>Buscar por numero de registro.</th></tr><tr><th>[<span "
+                                + "style='color: #345995'>3</span>]</th><th align='left'>Buscar por numero de "
+                                + "vuelo.</th></tr><tr><th>[<span style='color: #345995'>4</span>]</th><th "
+                                + "align='left'>Eliminar un registro de vuelo.</th></tr><tr><th>[<span "
+                                + "style='color: #345995'>5</span>]</th><th align='left'>Modificar un registro "
+                                + "de vuelo.</th></tr><tr><th>[<span style='color: #345995'>6</span>]</th><th "
+                                + "align='left'>Mostrar listado de vuelos.</th></tr><tr><th>[<span style='color: "
+                                + "#345995'>7</span>]</th><th align='left'>Salir.</th></tr></table><br><html>",
                         "AEROPUERTO INTERNACIONAL DEL BAJIO", JOptionPane.PLAIN_MESSAGE));
 
                 switch (opt) {
@@ -53,8 +90,9 @@ class PruebaVuelos {
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
             JOptionPane.showMessageDialog(null,
-                    "<html><span style='color: red'>ERROR!</span> No se pudo crear o leer el archivo.<html>",
+                    "<html><span style='color: red'>ERROR!</span> No se pudo crear o leer el " + "archivo.<html>",
                     "AEROPUERTO INTERNACIONAL DEL BAJIO", JOptionPane.ERROR_MESSAGE);
 
         }
@@ -65,7 +103,242 @@ class PruebaVuelos {
 
 // Clase CapturaDeDatosDeVuelo: Modela una ventana en la que se capturaran los
 // datos de un vuelo.
-class CapturadoraDeDatosDeVuelo extends JFrame {
+class CapturadoraDeDatosDeVuelo extends JPanel {
+
+    private JPanel panelPrincipal, panelInputs1, panelInputs2, panelInputs3, panelInputs4;
+    private JLabel lblTitulo, lblInstruccion, lblNoVuelo, lblCosto, lblCOrigen, lblCDestino, lblHSalida, lblHLlegada,
+            lblLineaA, lblMensaje;
+    private JTextField txtNoVuelo, txtCosto, txtCOrigen, txtCDestino, txtHSalida, txtHLlegada, txtLineaA;
+
+    public CapturadoraDeDatosDeVuelo() {
+
+        setLayout(new FlowLayout());
+
+        panelPrincipal = new JPanel(new GridLayout(8, 1));
+
+        lblTitulo = new JLabel("AEROPUERTO INTERNACIONAL DEL BAJIO", SwingConstants.CENTER);
+        lblTitulo.setForeground(new Color(0xFF2B8A));
+        lblTitulo.setFont(new Font("", Font.BOLD, 16));
+
+        lblInstruccion = new JLabel("Ingrese los datos del vuelo:", SwingConstants.CENTER);
+        lblInstruccion.setForeground(new Color(0x333333));
+        lblInstruccion.setFont(new Font("", Font.BOLD, 14));
+
+        panelPrincipal.add(lblTitulo);
+        panelPrincipal.add(lblInstruccion);
+
+        panelInputs1 = new JPanel(new FlowLayout());
+
+        lblNoVuelo = new JLabel("No. de Vuelo:");
+
+        txtNoVuelo = new JTextField(10);
+
+        txtNoVuelo.getDocument().addDocumentListener(new DocumentListener() {
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+
+                try {
+                    RegistroDeVuelo regV = new RegistroDeVuelo("VUELOS.txt");
+
+                    String registro = regV.obtenerLinea(txtNoVuelo.getText());
+
+                    if (registro != "") {
+                        lblMensaje.setVisible(true);
+                    } else {
+                        lblMensaje.setVisible(false);
+                    }
+
+                    if (txtNoVuelo.getText().length() == 0)
+                        lblMensaje.setVisible(false);
+
+                } catch (Exception ioE) {
+                }
+
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+
+                try {
+                    RegistroDeVuelo regV = new RegistroDeVuelo("VUELOS.txt");
+
+                    String registro = regV.obtenerLinea(txtNoVuelo.getText());
+
+                    if (registro != "") {
+                        lblMensaje.setVisible(true);
+                    } else {
+                        lblMensaje.setVisible(false);
+                    }
+
+                    if (txtNoVuelo.getText().length() == 0)
+                        lblMensaje.setVisible(false);
+
+                } catch (Exception ioE) {
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+
+                try {
+                    RegistroDeVuelo regV = new RegistroDeVuelo("VUELOS.txt");
+
+                    String registro = regV.obtenerLinea(txtNoVuelo.getText());
+
+                    if (registro != "") {
+                        lblMensaje.setVisible(true);
+                    } else {
+                        lblMensaje.setVisible(false);
+                    }
+
+                    if (txtNoVuelo.getText().length() == 0)
+                        lblMensaje.setVisible(false);
+
+                } catch (Exception ioE) {
+                }
+
+            }
+        });
+
+        lblCosto = new JLabel("Costo:");
+        lblCosto.setBorder(new EmptyBorder(0, 15, 0, 0));
+
+        txtCosto = new JTextField(16);
+
+        panelInputs1.add(lblNoVuelo);
+        panelInputs1.add(txtNoVuelo);
+        panelInputs1.add(lblCosto);
+        panelInputs1.add(txtCosto);
+
+        panelPrincipal.add(panelInputs1);
+
+        panelInputs2 = new JPanel(new FlowLayout());
+
+        lblCOrigen = new JLabel("Ciudad Origen:");
+
+        txtCOrigen = new JTextField(9);
+        txtCOrigen.setBorder(BorderFactory.createCompoundBorder(txtCOrigen.getBorder(),
+                BorderFactory.createEmptyBorder(0, 0, 0, 4)));
+
+        lblCDestino = new JLabel("Ciudad Destino:");
+        lblCDestino.setBorder(new EmptyBorder(0, 15, 0, 0));
+
+        txtCDestino = new JTextField(11);
+
+        lblCDestino.setBackground(Color.CYAN);
+
+        panelInputs2.add(lblCOrigen);
+        panelInputs2.add(txtCOrigen);
+        panelInputs2.add(lblCDestino);
+        panelInputs2.add(txtCDestino);
+
+        panelPrincipal.add(panelInputs2);
+
+        panelInputs3 = new JPanel(new FlowLayout());
+
+        lblHSalida = new JLabel("H. Salida:");
+
+        txtHSalida = new JTextField(11);
+        txtHSalida.setBorder(BorderFactory.createCompoundBorder(txtHSalida.getBorder(),
+                BorderFactory.createEmptyBorder(0, 0, 0, 6)));
+
+        lblHLlegada = new JLabel("H. Llegada:");
+        lblHLlegada.setBorder(new EmptyBorder(0, 15, 0, 0));
+
+        txtHLlegada = new JTextField(14);
+
+        panelInputs3.add(lblHSalida);
+        panelInputs3.add(txtHSalida);
+        panelInputs3.add(lblHLlegada);
+        panelInputs3.add(txtHLlegada);
+
+        panelPrincipal.add(panelInputs3);
+
+        panelInputs4 = new JPanel(new FlowLayout());
+
+        lblLineaA = new JLabel("Linea Aerea:");
+
+        txtLineaA = new JTextField(32);
+        txtLineaA.setBorder(
+                BorderFactory.createCompoundBorder(txtLineaA.getBorder(), BorderFactory.createEmptyBorder(0, 0, 0, 2)));
+
+        panelInputs4.add(lblLineaA);
+        panelInputs4.add(txtLineaA);
+
+        panelPrincipal.add(panelInputs4);
+
+        lblMensaje = new JLabel("Ya existe el numero de vuelo ingresado.", SwingConstants.CENTER);
+        lblMensaje.setForeground(Color.red);
+        lblMensaje.setFont(new Font("", Font.PLAIN, 12));
+
+        lblMensaje.setVisible(false);
+
+        panelPrincipal.add(lblMensaje);
+
+        add(panelPrincipal);
+
+        setSize(500, 350);
+        setVisible(true);
+
+    }
+
+    // Crea una ventana de dialogo con JOptionPane, insertando en ella el
+    // panelPrincipal construido en esta clase, este panel permite al usuario
+    // capturar los datos de un vuelo, siempre y cuando se cumplan los requisitos,
+    // el metodo devolvera un objeto de tipo Vuelo con los datos capturados, de lo
+    // contrario regresara null.
+    public Vuelo mostarPanelDeDatos() {
+
+        int resultado = JOptionPane.showConfirmDialog(null, panelPrincipal, "", JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE);
+
+        if (resultado == JOptionPane.OK_OPTION) {
+
+            System.out.println(txtNoVuelo.getText().length() + "\n" + txtCOrigen.getText().length() + "\n"
+                    + txtCDestino.getText().length() + "\n" + txtHSalida.getText().length() + "\n"
+                    + txtHLlegada.getText().length() + "\n" + txtLineaA.getText().length() + "\n"
+                    + txtCosto.getText().length());
+
+            if (txtNoVuelo.getText().length() == 0 || txtCOrigen.getText().length() == 0
+                    || txtCDestino.getText().length() == 0 || txtHSalida.getText().length() == 0
+                    || txtHLlegada.getText().length() == 0 || txtLineaA.getText().length() == 0
+                    || txtCosto.getText().length() == 0) {
+
+                JOptionPane.showMessageDialog(null,
+                        "<html><span style='color: red'>ERROR !</span> No se capturaron todos los datos necesarios.<html>",
+                        "AEROPUERTO INTERNACIONAL DEL BAJIO", JOptionPane.ERROR_MESSAGE);
+
+                return null;
+
+            } else {
+
+                if (!(lblMensaje.isVisible())) {
+
+                    System.out.println("Exito!");
+
+                    return new Vuelo(txtNoVuelo.getText(), txtCOrigen.getText(), txtCDestino.getText(),
+                            Integer.parseInt(txtHSalida.getText()), Integer.parseInt(txtHLlegada.getText()),
+                            txtLineaA.getText(), Float.parseFloat(txtCosto.getText()));
+
+                } else {
+
+                    JOptionPane.showMessageDialog(null,
+                            "<html><span style='color: red'>ERROR !</span> El numero de vuelo especificado ya esta registrado.<html>",
+                            "AEROPUERTO INTERNACIONAL DEL BAJIO", JOptionPane.ERROR_MESSAGE);
+
+                    return null;
+
+                }
+
+            }
+
+        } else {
+
+            return null;
+        }
+
+    }
 
 }
 
@@ -98,35 +371,9 @@ class Vuelo {
     // metodo a travez de un objeto de tipo CapturaDeDatosDeVuelo.
     public static Vuelo crearVuelo() {
 
-        String noVuelo = JOptionPane.showInputDialog(null,
-                "<html>Ingrese el <span style='color: " + HIGHLIGHT_COLOR + "'>No. de Vuelo</span>:</html>",
-                "AEROPUERTO INTERNACIONAL DEL BAJIO", JOptionPane.PLAIN_MESSAGE);
+        CapturadoraDeDatosDeVuelo cap = new CapturadoraDeDatosDeVuelo();
 
-        String cOrigen = JOptionPane.showInputDialog(null,
-                "<html>Ingrese la <span style='color: " + HIGHLIGHT_COLOR + "'>Ciudad de origen</span>:</html>",
-                "AEROPUERTO INTERNACIONAL DEL BAJIO", JOptionPane.PLAIN_MESSAGE);
-
-        String cDestino = JOptionPane.showInputDialog(null,
-                "<html>Ingrese la <span style='color: " + HIGHLIGHT_COLOR + "'>Ciudad de destino</span>:</html>",
-                "AEROPUERTO INTERNACIONAL DEL BAJIO", JOptionPane.PLAIN_MESSAGE);
-
-        int hSalida = Integer.parseInt(JOptionPane.showInputDialog(null,
-                "<html>Ingrese la <span style='color: " + HIGHLIGHT_COLOR + "'>Hora de salida</span>:</html>",
-                "AEROPUERTO INTERNACIONAL DEL BAJIO", JOptionPane.PLAIN_MESSAGE));
-
-        int hLlegada = Integer.parseInt(JOptionPane.showInputDialog(null,
-                "<html>Ingrese la <span style='color: " + HIGHLIGHT_COLOR + "'>Hora de llegada</span>:</html>",
-                "AEROPUERTO INTERNACIONAL DEL BAJIO", JOptionPane.PLAIN_MESSAGE));
-
-        String lineaA = JOptionPane.showInputDialog(null,
-                "<html>Ingrese la <span style='color: " + HIGHLIGHT_COLOR + "'>Linea aerea</span>:</html>",
-                "AEROPUERTO INTERNACIONAL DEL BAJIO", JOptionPane.PLAIN_MESSAGE);
-
-        float costo = Float.parseFloat(JOptionPane.showInputDialog(null,
-                "<html>Ingrese el <span style='color: " + HIGHLIGHT_COLOR + "'>Costo</span>:</html>",
-                "AEROPUERTO INTERNACIONAL DEL BAJIO", JOptionPane.PLAIN_MESSAGE));
-
-        return new Vuelo(noVuelo, cOrigen, cDestino, hSalida, hLlegada, lineaA, costo);
+        return cap.mostarPanelDeDatos();
 
     }
 
@@ -211,39 +458,41 @@ class RegistroDeVuelo {
     // capturados y no se sobreescribira el archivo.
     public void añadirReg(Vuelo v) throws IOException {
 
-        String registro = obtenerLinea(v.getNoVuelo());
+        if (v != null) {
+            String registro = obtenerLinea(v.getNoVuelo());
 
-        if (registro == "") {
-            archivo.seek((int) archivo.length());
+            if (registro == "") {
+                archivo.seek((int) archivo.length());
 
-            if (archivo.length() != 0)
-                archivo.write("\n".getBytes());
+                if (archivo.length() != 0)
+                    archivo.write("\n".getBytes());
 
-            archivo.write((v.getNoVuelo() + "\t").getBytes());
-            archivo.write((v.getCOrigen() + "\t").getBytes());
-            archivo.write((v.getCDestino() + "\t").getBytes());
-            archivo.write((v.getHSalida() + "\t").getBytes());
-            archivo.write((v.getHLlegada() + "\t").getBytes());
-            archivo.write((v.getLineaA() + "\t").getBytes());
-            archivo.write((v.getCosto() + "\t").getBytes());
+                archivo.write((v.getNoVuelo() + "\t").getBytes());
+                archivo.write((v.getCOrigen() + "\t").getBytes());
+                archivo.write((v.getCDestino() + "\t").getBytes());
+                archivo.write((v.getHSalida() + "\t").getBytes());
+                archivo.write((v.getHLlegada() + "\t").getBytes());
+                archivo.write((v.getLineaA() + "\t").getBytes());
+                archivo.write((v.getCosto() + "\t").getBytes());
 
-            JOptionPane.showMessageDialog(null, "<html><span style='color: " + Vuelo.SUBJECT_COLOR
-                    + "'>REGISTRO AÑADIDO EXITOSAMENTE!</span><br><br>[Resumen del registro]<br>No. de Vuelo: <span style='color: "
-                    + Vuelo.HIGHLIGHT_COLOR + "'>" + v.getNoVuelo() + "</span><br>C. Origen: <span style='color: "
-                    + Vuelo.HIGHLIGHT_COLOR + "'>" + v.getCOrigen() + "</span><br>C. Destino: <span style='color: "
-                    + Vuelo.HIGHLIGHT_COLOR + "'>" + v.getCDestino() + "</span><br>H. Salida: <span style='color: "
-                    + Vuelo.HIGHLIGHT_COLOR + "'>" + v.getHSalida() + "</span><br>H. Llegada: <span style='color: "
-                    + Vuelo.HIGHLIGHT_COLOR + "'>" + v.getHLlegada() + "</span><br>Linea aerea: <span style='color: "
-                    + Vuelo.HIGHLIGHT_COLOR + "'>" + v.getLineaA() + "</span><br>Costo: <span style='color: "
-                    + Vuelo.HIGHLIGHT_COLOR + "'>" + v.getCosto() + "</span></html>",
-                    "AEROPUERTO INTERNACIONAL DEL BAJIO", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null, "<html><span style='color: " + Vuelo.SUBJECT_COLOR
+                        + "'>REGISTRO AÑADIDO EXITOSAMENTE!</span><br><br>[Resumen del registro]<br>No. de Vuelo: <span style='color: "
+                        + Vuelo.HIGHLIGHT_COLOR + "'>" + v.getNoVuelo() + "</span><br>C. Origen: <span style='color: "
+                        + Vuelo.HIGHLIGHT_COLOR + "'>" + v.getCOrigen() + "</span><br>C. Destino: <span style='color: "
+                        + Vuelo.HIGHLIGHT_COLOR + "'>" + v.getCDestino() + "</span><br>H. Salida: <span style='color: "
+                        + Vuelo.HIGHLIGHT_COLOR + "'>" + v.getHSalida() + "</span><br>H. Llegada: <span style='color: "
+                        + Vuelo.HIGHLIGHT_COLOR + "'>" + v.getHLlegada()
+                        + "</span><br>Linea aerea: <span style='color: " + Vuelo.HIGHLIGHT_COLOR + "'>" + v.getLineaA()
+                        + "</span><br>Costo: <span style='color: " + Vuelo.HIGHLIGHT_COLOR + "'>" + v.getCosto()
+                        + "</span></html>", "AEROPUERTO INTERNACIONAL DEL BAJIO", JOptionPane.PLAIN_MESSAGE);
 
-        } else {
+            } else {
 
-            JOptionPane.showMessageDialog(null,
-                    "<html><span style='color: red'>ERROR !</span> Ya existe un vuelo con el mismo numero.<br>Ingrese un numero que no este registrado.<html>",
-                    "AEROPUERTO INTERNACIONAL DEL BAJIO", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null,
+                        "<html><span style='color: red'>ERROR !</span> Ya existe un vuelo con el mismo numero.<br>Ingrese un numero que no este registrado.<html>",
+                        "AEROPUERTO INTERNACIONAL DEL BAJIO", JOptionPane.ERROR_MESSAGE);
 
+            }
         }
 
     }
@@ -372,8 +621,6 @@ class RegistroDeVuelo {
         archivo.close();
 
         cadena = cadena.substring(0, cadena.length() - 72) + "</table><html>";
-
-        System.out.println(cadena);
 
         JOptionPane.showMessageDialog(null, cadena, "AEROPUERTO INTERNACIONAL DEL BAJIO", JOptionPane.PLAIN_MESSAGE);
 
